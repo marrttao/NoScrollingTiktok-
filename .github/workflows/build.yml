@@ -28,12 +28,12 @@ jobs:
       - name: Unit tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew :extensions:tiktok:testReleaseUnitTest :patches:test --no-daemon --stacktrace
+        run: ./gradlew :extensions:tiktok:testDebugUnitTest :patches:test --no-daemon
 
       - name: Build patch bundle
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew :patches:buildAndroid --no-daemon --stacktrace
+        run: ./gradlew :patches:buildAndroid --no-daemon
 
       - name: Inspect patch bundle
         run: |
