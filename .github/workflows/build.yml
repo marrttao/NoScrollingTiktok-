@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  # Morphe's patcher and Gradle plugin are hosted on GitHub Packages.
+  packages: read
+
+jobs:
+  build:
+    name: Build patches and run tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Unit tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew :extensions:tiktok:testReleaseUnitTest :patches:test --no-daemon --stacktrace
+
+      - name: Build patch bundle
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew :patches:buildAndroid --no-daemon --stacktrace
+
+      - name: Inspect patch bundle
+        run: |
+          set -euo pipefail
+          bundle=$(ls patches/build/libs/patches-*.mpp | grep -v -e sources -e javadoc)
+          echo "bundle: $bundle"
+          unzip -l "$bundle" | grep -E 'classes.dex|extensions/tiktok.mpe'
+          unzip -p "$bundle" META-INF/MANIFEST.MF
+          sha256sum "$bundle"
+
+      - name: Upload patch bundle
+        uses: actions/upload-artifact@v5
+        with:
+          name: unscroll-patches
+          path: |
+            patches/build/libs/patches-*.mpp
+            !patches/build/libs/*sources*
+            !patches/build/libs/*javadoc*
+          if-no-files-found: error

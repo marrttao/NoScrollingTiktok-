@@ -1,0 +1,27 @@
+# Gradle / build output
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+local.properties
+*.class
+*.log
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Never commit target apps, patched apps, keystores or signing material.
+*.apk
+*.apks
+*.xapk
+*.apkm
+*.aab
+*.keystore
+*.jks
+*.bks
+*.p12
+*.pem
+*.mpp
+work/
