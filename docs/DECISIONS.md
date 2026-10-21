@@ -31,6 +31,13 @@ requires an explicit discussion; the patches implement exactly these rules.
 | P11 | Watching other people's LIVE streams is blocked. Starting **own** LIVE is kept. |
 | P12 | Deep links (`tiktok.com/...`, `snssdk1233://...`) to a specific video open that single video under rule P3 (a link pasted from another messenger is treated like a DM share, P4); links to feeds, hashtags, sounds, search or LIVE rooms are redirected to Inbox. |
 
+## Distribution
+
+| # | Decision |
+|---|---|
+| D1 | Source code lives on GitHub. The owner wants users to get Unscroll through the owner's Telegram channel. |
+| D2 | What is distributed is the **Unscroll patch bundle** (`patches-*.mpp`, our own GPL code) and instructions; users patch their own original TikTok APK (Morphe Manager on the phone, or `scripts/unscroll-patch.sh`). Prebuilt patched TikTok APKs are **not** produced or distributed by this project: they contain TikTok's proprietary code, and users could not verify what a third party signed. (Pending owner confirmation.) |
+
 ## Pending (ask before acting)
 
 * Making the GitHub repository public and publishing a release.
