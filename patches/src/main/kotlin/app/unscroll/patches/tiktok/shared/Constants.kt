@@ -10,7 +10,7 @@ internal const val TIKTOK_PACKAGE = "com.zhiliaoapp.musically"
  * TikTok versions whose bytecode every Unscroll patch has been checked against.
  * Patches refuse other versions instead of half-applying (fail-closed).
  */
-internal val SUPPORTED_TIKTOK_VERSIONS = listOf("46.2.3")
+internal val SUPPORTED_TIKTOK_VERSIONS = listOf("47.4.3")
 
 internal val TIKTOK_COMPATIBILITY = Compatibility(
     name = "TikTok",

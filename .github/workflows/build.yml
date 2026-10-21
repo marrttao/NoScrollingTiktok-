@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tiktok: ['46.2.3']
+        tiktok: ['47.4.3']
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -88,9 +88,9 @@ jobs:
         run: |
           set -uo pipefail
           if [[ -n "${TIKTOK_APK_URL:-}" ]]; then
-            curl -fsSL --retry 3 -o "$RUNNER_TEMP/tiktok.apk" "$TIKTOK_APK_URL" && ok=1 || ok=0
+            curl -fsSL --retry 3 -o "$RUNNER_TEMP/tiktok.apkm" "$TIKTOK_APK_URL" && ok=1 || ok=0
           else
-            scripts/fetch-tiktok-apk.sh "${{ matrix.tiktok }}" "$RUNNER_TEMP/tiktok.apk" && ok=1 || ok=0
+            scripts/fetch-tiktok-apk.sh "${{ matrix.tiktok }}" "$RUNNER_TEMP/tiktok.apkm" && ok=1 || ok=0
           fi
           if [[ "$ok" == 1 ]]; then
             echo "available=true" >> "$GITHUB_OUTPUT"
@@ -104,17 +104,21 @@ jobs:
         run: |
           set -euo pipefail
           bt=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n1)
-          "$bt/aapt2" dump badging "$RUNNER_TEMP/tiktok.apk" | head -n1 | tee "$RUNNER_TEMP/badging.txt"
+          mkdir -p "$RUNNER_TEMP/orig"
+          unzip -q -o "$RUNNER_TEMP/tiktok.apkm" base.apk -d "$RUNNER_TEMP/orig"
+          "$bt/aapt2" dump badging "$RUNNER_TEMP/orig/base.apk" | head -n1 | tee "$RUNNER_TEMP/badging.txt"
           grep -q "name='com.zhiliaoapp.musically'" "$RUNNER_TEMP/badging.txt"
           grep -q "versionName='${{ matrix.tiktok }}'" "$RUNNER_TEMP/badging.txt"
-          "$bt/apksigner" verify --print-certs "$RUNNER_TEMP/tiktok.apk" | grep -E 'Signer #1 certificate (DN|SHA-256)'
+          # TikTok's signing certificate (CN=musical.ly).
+          "$bt/apksigner" verify --print-certs "$RUNNER_TEMP/orig/base.apk" \
+            | grep -q 'SHA-256 digest: 9041803e91bcb814b4b4399fb5c85a91640b755e5e8ba76813814bf4cf2ab5ba'
 
       - name: Apply Unscroll patches (fail-closed)
         if: steps.apk.outputs.available == 'true'
         run: |
           set -euo pipefail
           bundle=$(ls bundle/patches-*.mpp | head -n1)
-          scripts/unscroll-patch.sh --apk "$RUNNER_TEMP/tiktok.apk" --bundle "$bundle" \
+          scripts/unscroll-patch.sh --apk "$RUNNER_TEMP/tiktok.apkm" --bundle "$bundle" \
             --keystore "$RUNNER_TEMP/ci-throwaway.keystore" --out "$RUNNER_TEMP/unscroll.apk"
 
       - name: Check patched APK
@@ -131,4 +135,4 @@ jobs:
 
       - name: Remove APKs
         if: always()
-        run: rm -rf "$RUNNER_TEMP"/*.apk "$RUNNER_TEMP/dex"
+        run: rm -rf "$RUNNER_TEMP"/*.apk "$RUNNER_TEMP"/*.apkm "$RUNNER_TEMP/orig" "$RUNNER_TEMP/dex"

@@ -1,6 +1,6 @@
 package app.unscroll.patches.tiktok
 
-import app.unscroll.patches.tiktok.feed.blockVideoFeedsPatch
+import app.unscroll.patches.tiktok.feed.blockFeedEndpointsPatch
 import app.unscroll.patches.tiktok.login.fixGoogleLoginPatch
 import app.unscroll.patches.tiktok.navigation.restrictNavigationPatch
 import app.unscroll.patches.tiktok.shared.SUPPORTED_TIKTOK_VERSIONS
@@ -12,7 +12,7 @@ import java.io.File
 
 class PatchMetadataTest {
     private val unscrollPatches = listOf(
-        blockVideoFeedsPatch,
+        blockFeedEndpointsPatch,
         restrictNavigationPatch,
         fixGoogleLoginPatch,
     )

@@ -50,7 +50,7 @@ Quick version (computer, Java 21+):
 
 ```bash
 ./gradlew :patches:buildAndroid          # or download a released patches-*.mpp
-scripts/unscroll-patch.sh --apk TikTok-46.2.3.apk \
+scripts/unscroll-patch.sh --apk TikTok-47.4.3.apkm \
   --bundle patches/build/libs/patches-0.1.0.mpp \
   --keystore ~/unscroll.keystore
 ```
@@ -71,7 +71,7 @@ export GITHUB_TOKEN=<token with read:packages>
 
 | TikTok | Package | State |
 |---|---|---|
-| 46.2.3 | `com.zhiliaoapp.musically` | in development, not yet verified |
+| 47.4.3 | `com.zhiliaoapp.musically` | patches apply (verified locally); device QA pending |
 
 Full table and APK requirements: [docs/COMPATIBILITY.md](docs/COMPATIBILITY.md).
 

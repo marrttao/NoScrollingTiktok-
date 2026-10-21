@@ -3,7 +3,7 @@
 # Morphe Desktop CLI. Produces nothing if any Unscroll patch fails (fail-closed).
 #
 # Usage:
-#   scripts/unscroll-patch.sh --apk TikTok-46.2.3.apk --bundle patches-x.y.z.mpp \
+#   scripts/unscroll-patch.sh --apk TikTok-47.4.3.apkm --bundle patches-x.y.z.mpp \
 #       --keystore ~/unscroll.keystore [--out unscroll.apk]
 #
 # The keystore is created by Morphe on first use if it does not exist. Keep it:
@@ -17,7 +17,7 @@ MORPHE_SHA256="1b506ab5f03d16a2f65026d5e0e1910d01fc1e2152f21eaeb44ed2f30856597b"
 
 # Every patch that makes up Unscroll. All of them must apply.
 PATCHES=(
-  "Block video feeds"
+  "Block feed endpoints"
   "Restrict navigation"
   "Fix Google login"
 )
@@ -37,7 +37,8 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-[[ -f "$apk" ]] || die "--apk must point to the original TikTok APK"
+[[ -f "$apk" ]] || die "--apk must point to the original TikTok APK or APKMirror bundle (.apkm)"
+case "$apk" in *.apk|*.apkm|*.apks|*.xapk) ;; *) die "--apk must end in .apk, .apkm, .apks or .xapk (Morphe picks the format by extension)" ;; esac
 [[ -f "$bundle" ]] || die "--bundle must point to the Unscroll patches-*.mpp"
 [[ -n "$keystore" ]] || die "--keystore is required (reuse the same file for every update)"
 command -v java >/dev/null || die "Java 21 or newer is required"
@@ -56,7 +57,7 @@ echo "${MORPHE_SHA256}  ${jar}" | sha256sum -c --quiet - || { rm -f "$jar"; die 
 
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
-out="${out:-unscroll-$(basename "${apk%.apk}").apk}"
+base_name=$(basename "$apk"); out="${out:-unscroll-${base_name%.*}.apk}"
 result="$work/result.json"
 
 args=(-jar "$jar" patch -p "$bundle" --exclusive)

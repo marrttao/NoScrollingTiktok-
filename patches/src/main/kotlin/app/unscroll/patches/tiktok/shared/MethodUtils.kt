@@ -28,11 +28,3 @@ internal fun MutableMethod.beforeEveryObjectReturn(smaliTemplate: String) {
         addInstructions(index, smaliTemplate.replace("{reg}", "v$register"))
     }
 }
-
-/** Makes every `return-object` of [this] return a new, empty, mutable list. */
-internal fun MutableMethod.returnEmptyMutableList() = beforeEveryObjectReturn(
-    """
-        new-instance {reg}, Ljava/util/ArrayList;
-        invoke-direct/range { {reg} .. {reg} }, Ljava/util/ArrayList;-><init>()V
-    """,
-)

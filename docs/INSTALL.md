@@ -40,9 +40,9 @@ so:
 ## 3. Get the original APK
 
 Unscroll patches only one exact TikTok build. Check `docs/COMPATIBILITY.md` for the
-supported version (currently **46.2.3**, package `com.zhiliaoapp.musically`).
+supported version (currently **47.4.3**, package `com.zhiliaoapp.musically`).
 
-Download the original, unmodified **APK** (not a bundle) of exactly that version from a
+Download the original, unmodified APK or APKMirror bundle (`.apkm`) of exactly that version from a
 source that verifies TikTok's signature, e.g. APKMirror. Do not use already-modified
 APKs.
 
@@ -62,10 +62,10 @@ APKs.
 
 ```bash
 scripts/unscroll-patch.sh \
-  --apk TikTok-46.2.3.apk \
+  --apk TikTok-47.4.3.apkm \
   --bundle patches-<version>.mpp \
   --keystore ~/unscroll.keystore \
-  --out unscroll-46.2.3.apk
+  --out unscroll-47.4.3.apk
 ```
 
 * The script downloads a pinned Morphe Desktop CLI and checks its SHA-256.
@@ -77,7 +77,7 @@ scripts/unscroll-patch.sh \
 
 1. Complete the checklist in section 2.
 2. Uninstall the official TikTok.
-3. Install the patched APK (open it on the phone, or `adb install unscroll-46.2.3.apk`).
+3. Install the patched APK (open it on the phone, or `adb install unscroll-47.4.3.apk`).
 4. Open it and sign in.
 
 ## 6. Updating

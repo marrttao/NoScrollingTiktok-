@@ -8,7 +8,7 @@ requires an explicit discussion; the patches implement exactly these rules.
 | # | Decision | Rationale |
 |---|---|---|
 | T1 | Patch framework: **Morphe** (patch bundle `.mpp`, Kotlin patches + Java extension) | Active, on-device and desktop patching, verified TikTok 46.2.3 hook points exist upstream (see RESEARCH.md). |
-| T2 | Target: global TikTok `com.zhiliaoapp.musically`, single pinned version (initially **46.2.3**) | Fingerprints are version-specific; one pinned version keeps behaviour verifiable. |
+| T2 | Target: global TikTok `com.zhiliaoapp.musically`, single pinned version (initially 46.2.3, moved to **47.4.3** on 2026-10-21 because that is the build the owner obtained; 46.2.3 upstream hooks were re-checked and replaced) | Fingerprints are version-specific; one pinned version keeps behaviour verifiable. |
 | T3 | Keep the original package ID | Unscroll replaces TikTok, it does not run next to it. |
 | T4 | Owner device: official Google Play TikTok, Android 12+ | Determines APK architecture (arm64) and install path. |
 | T5 | All login methods must keep working (email, phone, username, Google) | Owner requirement. Google Sign-In needs special handling after re-signing; see ARCHITECTURE.md. |

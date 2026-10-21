@@ -5,7 +5,7 @@
 # Usage: scripts/fetch-tiktok-apk.sh <version> <output.apk>
 set -euo pipefail
 
-version="${1:?version, e.g. 46.2.3}"
+version="${1:?version, e.g. 47.4.3}"
 out="${2:?output path}"
 slug="tiktok-${version//./-}"
 base="https://www.apkmirror.com"

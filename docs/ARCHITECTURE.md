@@ -55,17 +55,20 @@ verification state; nothing is "verified" until that table says so.
 
 | Patch | Decision | Hook points | Status |
 |---|---|---|---|
-| Block video feeds | P1 | `FeedApiService.fetchFeedList` (empty result, no more pages), `FeedItemList.getItems`, `FollowFeedList.getItems` (empty), Friends feed network response (emptied) | implemented |
-| Restrict navigation | P1 | `TabAbilityAssem` bottom/top tab model lists → `TabPolicy` | implemented |
-| Fix Google login | T5 | `GoogleAuth` availability → false, TikTok uses browser sign-in | implemented |
-| Start on Inbox | P2 | main activity initial tab | needs APK reverse engineering |
-| Single video | P3 | detail screen pager / auto-advance / related videos | needs APK reverse engineering |
-| Profile playback rule | P5–P7 | profile grid item click → `PlaybackPolicy` | needs APK reverse engineering |
-| Accounts-only search | P8 | search result tabs | needs APK reverse engineering |
-| Block hashtag/sound pages | P9 | challenge/music detail screens | needs APK reverse engineering |
-| Stories: no auto-advance between authors | P10 | story pager | needs APK reverse engineering |
-| Block LIVE viewing | P11 | live room entry | needs APK reverse engineering |
-| Deep-link guard | P12 | TikTok router entry → `LinkPolicy` | policy implemented, hook needs APK |
+| Block feed endpoints | P1, P8, P9, P11 | every `com.bytedance.retrofit2.client.Request` constructor: the URL passes through `FeedEndpointPolicy`; feed API paths are redirected to an unreachable local address | applies on 47.4.3 |
+| Restrict navigation | P1, P2 | `enable()` of the Friends/Shop/Explore/Discover bottom-tab protocols returns false; `TabChangeManager` tab switch redirected by `TabPolicy` (Home, and any unknown tab, opens Inbox) | applies on 47.4.3 |
+| Fix Google login | T5 | `GoogleAuth` availability → false, TikTok uses browser sign-in | applies on 47.4.3 |
+| Single video | P3 | detail screen pager (`DetailFragmentPanel` / `VerticalViewPager`) | in progress |
+| Profile playback rule | P5–P7 | profile grid item click → `PlaybackPolicy` | in progress |
+| Accounts-only search | P8 | video results already blocked by endpoint guard; search tabs UI | partly (data layer) |
+| Hashtag/sound pages | P9 | video lists blocked by endpoint guard | data layer only |
+| Stories: no auto-advance between authors | P10 | story pager | not started |
+| Block LIVE viewing | P11 | LIVE feed blocked by endpoint guard; live room entry | partly |
+| Deep-link guard | P12 | TikTok router entry → `LinkPolicy` | policy implemented, hook not started |
+
+Removed during reverse engineering of 47.4.3: emptying `FeedItemList.getItems()` —
+TikTok also uses `FeedItemList` for profile video lists, so it would have broken
+profiles. The endpoint guard covers the same data without that side effect.
 
 ## Signing and installation model
 
