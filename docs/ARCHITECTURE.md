@@ -72,9 +72,10 @@ profiles. The endpoint guard covers the same data without that side effect.
 
 ## Signing and installation model
 
-Morphe re-signs the patched APK with a keystore kept by the user (Morphe Manager keeps
-its own keystore on the phone; the CLI accepts `--keystore`). Android only installs an
-update signed with the same key, therefore:
+Morphe re-signs the patched APK with the build publisher's keystore. For self-built
+APKs, Morphe Manager keeps the user's keystore on the phone; the CLI accepts
+`--keystore`. A channel APK can use a different key from a self-built APK.
+Android only installs an update signed with the same key, therefore:
 
 * The official TikTok must be uninstalled before the first Unscroll install (its local
   data — including unpublished drafts — is lost; see `docs/INSTALL.md`).

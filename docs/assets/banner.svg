@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="440" viewBox="0 0 1280 440" fill="none" role="img" aria-labelledby="title description">
+  <title id="title">Unscroll — keep your people, lose the feed</title>
+  <desc id="description">Dark banner with mint typography, a U-shaped mark, and message and creation symbols.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1280" y2="440" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#101B22"/>
+      <stop offset="1" stop-color="#0B1118"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="908" y1="114" x2="1164" y2="350" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B6F8D9"/>
+      <stop offset="1" stop-color="#65D9E9"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="1278" height="438" rx="28" fill="url(#background)" stroke="#263B43" stroke-width="2"/>
+  <path d="M770 1V439M850 1V439M930 1V439M1010 1V439M1090 1V439M1170 1V439M770 60H1278M770 140H1278M770 220H1278M770 300H1278M770 380H1278" stroke="#1B2C34"/>
+  <circle cx="1015" cy="221" r="171" stroke="#2D514F"/>
+  <circle cx="1015" cy="221" r="139" stroke="#203A3E"/>
+  <path d="M70 57V72C70 82 77 88 86 88C95 88 102 82 102 72V57" stroke="#AAF4D5" stroke-width="7" stroke-linecap="round"/>
+  <g font-family="DejaVu Sans, Arial, sans-serif">
+    <text x="120" y="84" fill="#F0F6F5" font-size="30" font-weight="700" letter-spacing="2">UNSCROLL</text>
+    <text x="66" y="201" fill="#F0F6F5" font-size="52" font-weight="700" letter-spacing="-1.5">KEEP YOUR PEOPLE.</text>
+    <text x="66" y="267" fill="#AAF4D5" font-size="52" font-weight="700" letter-spacing="-1.5">LOSE THE FEED.</text>
+    <text x="70" y="316" fill="#A5B7BD" font-size="21">More friends. More creating. More time.</text>
+    <rect x="70" y="356" width="112" height="31" rx="15.5" fill="#1B3034" stroke="#304B4D"/>
+    <text x="126" y="377" text-anchor="middle" fill="#BDE4D8" font-size="12" font-weight="700" letter-spacing="1">ANDROID</text>
+    <rect x="194" y="356" width="150" height="31" rx="15.5" fill="#1B3034" stroke="#304B4D"/>
+    <text x="269" y="377" text-anchor="middle" fill="#BDE4D8" font-size="12" font-weight="700" letter-spacing="1">OPEN SOURCE</text>
+  </g>
+  <rect x="914" y="120" width="214" height="214" rx="56" fill="#070F15"/>
+  <rect x="902" y="108" width="214" height="214" rx="56" fill="url(#accent)"/>
+  <path d="M955 168V213C955 246 976 267 1009 267C1042 267 1063 246 1063 213V168" stroke="#11292E" stroke-width="22" stroke-linecap="round"/>
+  <rect x="830" y="294" width="86" height="86" rx="25" fill="#15252D" stroke="#3C5B60" stroke-width="2"/>
+  <path d="M853 317H893V344H874L862 354V344H853V317Z" stroke="#A8F3D5" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="865" cy="330" r="2" fill="#A8F3D5"/>
+  <circle cx="873" cy="330" r="2" fill="#A8F3D5"/>
+  <circle cx="881" cy="330" r="2" fill="#A8F3D5"/>
+  <rect x="1130" y="54" width="76" height="76" rx="23" fill="#15252D" stroke="#3C5B60" stroke-width="2"/>
+  <path d="M1168 76V108M1152 92H1184" stroke="#8DDDE4" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="1203" cy="349" r="4" fill="#A8F3D5"/>
+  <circle cx="799" cy="102" r="3" fill="#7CCED4"/>
+</svg>
