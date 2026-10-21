@@ -4,7 +4,9 @@
 #
 # Usage:
 #   scripts/unscroll-patch.sh --apk TikTok-47.4.3.apkm --bundle patches-x.y.z.mpp \
-#       --keystore ~/unscroll.keystore [--out unscroll.apk]
+#       --keystore ~/unscroll.keystore [--out unscroll.apk] [--arch arm64-v8a]
+#
+# --arch keeps only the native libraries of that architecture (smaller APK).
 #
 # The keystore is created by Morphe on first use if it does not exist. Keep it:
 # every later Unscroll update must be signed with the same keystore.
@@ -27,15 +29,16 @@ PATCHES=(
 
 die() { echo "error: $*" >&2; exit 1; }
 
-apk="" bundle="" keystore="" out="" keystore_password="${UNSCROLL_KEYSTORE_PASSWORD:-}"
+apk="" bundle="" keystore="" out="" arch="" keystore_password="${UNSCROLL_KEYSTORE_PASSWORD:-}"
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --apk) apk="$2"; shift 2 ;;
     --bundle) bundle="$2"; shift 2 ;;
     --keystore) keystore="$2"; shift 2 ;;
     --out) out="$2"; shift 2 ;;
+    --arch) arch="$2"; shift 2 ;;
     --list) printf '%s\n' "${PATCHES[@]}"; exit 0 ;;
-    -h|--help) sed -n '2,12p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,15p' "$0"; exit 0 ;;
     *) die "unknown argument: $1" ;;
   esac
 done
@@ -65,7 +68,9 @@ result="$work/result.json"
 
 args=(-jar "$jar" patch -p "$bundle" --exclusive)
 for name in "${PATCHES[@]}"; do args+=(-e "$name"); done
-args+=(--keystore "$keystore" --keystore-password "$keystore_password" --signer Unscroll
+[[ -n "$arch" ]] && args+=(--striplibs "$arch")
+args+=(--keystore "$keystore" --keystore-password "$keystore_password"
+       --keystore-entry-alias Unscroll --keystore-entry-password "${UNSCROLL_KEY_PASSWORD:-Unscroll}" --signer Unscroll
        -r "$result" -o "$work/out.apk" "$apk")
 
 echo "Patching $(basename "$apk")..."
@@ -73,8 +78,14 @@ java "${args[@]}"
 
 [[ -f "$work/out.apk" ]] || die "patching produced no APK"
 # The CLI stops on the first failing patch; check the result report as a second line of defence.
-if [[ -f "$result" ]] && grep -Eqi '"(success|succeeded)"[[:space:]]*:[[:space:]]*false|"exception"[[:space:]]*:[[:space:]]*"[^"]' "$result"; then
-  die "at least one patch failed; see $result (not producing an APK)"
+if [[ -f "$result" ]]; then
+  if grep -q '"failedPatches":\[{' "$result" || grep -q '"success":false' "$result"; then
+    cp "$result" "./unscroll-patch-result.json" 2>/dev/null || true
+    die "at least one patch failed; see ./unscroll-patch-result.json (not producing an APK)"
+  fi
+  for name in "${PATCHES[@]}"; do
+    grep -q "\"name\":\"$name\"" "$result" || die "patch not reported as applied: $name (not producing an APK)"
+  done
 fi
 
 mv "$work/out.apk" "$out"

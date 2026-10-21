@@ -52,7 +52,7 @@ Quick version (computer, Java 21+):
 ./gradlew :patches:buildAndroid          # or download a released patches-*.mpp
 scripts/unscroll-patch.sh --apk TikTok-47.4.3.apkm \
   --bundle patches/build/libs/patches-0.1.0.mpp \
-  --keystore ~/unscroll.keystore
+  --keystore ~/unscroll.keystore --arch arm64-v8a
 ```
 
 ## Build from source
@@ -93,7 +93,7 @@ bypass login, CAPTCHA or account protection. See [SECURITY.md](SECURITY.md).
 
 * [Research](docs/RESEARCH.md) · [Decisions](docs/DECISIONS.md) · [Architecture](docs/ARCHITECTURE.md)
 * [Install](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Troubleshooting](docs/TROUBLESHOOTING.md)
-* [QA checklist](docs/QA_CHECKLIST.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
+* [Test report](docs/TEST_REPORT.md) · [QA checklist](docs/QA_CHECKLIST.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
 
 ## License
 

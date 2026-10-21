@@ -65,10 +65,13 @@ scripts/unscroll-patch.sh \
   --apk TikTok-47.4.3.apkm \
   --bundle patches-<version>.mpp \
   --keystore ~/unscroll.keystore \
+  --arch arm64-v8a \
   --out unscroll-47.4.3.apk
 ```
 
 * The script downloads a pinned Morphe Desktop CLI and checks its SHA-256.
+* `--arch arm64-v8a` keeps only 64-bit ARM libraries (almost every Android 12+ phone);
+  leave it out if unsure.
 * If **any** Unscroll patch fails, no APK is produced.
 * `~/unscroll.keystore` is created on first use. **Back it up.** Losing it means the
   next update requires uninstalling again (and losing local data again).
