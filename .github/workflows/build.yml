@@ -78,11 +78,29 @@ jobs:
           path: bundle
 
       # The original APK stays in the runner's temp directory and is deleted with it.
-      # It is never uploaded, cached or attached to anything.
+      # It is never uploaded, cached or attached to anything. Source: the repository
+      # secret TIKTOK_APK_URL (a private direct link set by the maintainer), otherwise
+      # APKMirror (which usually blocks CI runners).
       - name: Fetch original TikTok APK
-        run: scripts/fetch-tiktok-apk.sh "${{ matrix.tiktok }}" "$RUNNER_TEMP/tiktok.apk"
+        id: apk
+        env:
+          TIKTOK_APK_URL: ${{ secrets.TIKTOK_APK_URL }}
+        run: |
+          set -uo pipefail
+          if [[ -n "${TIKTOK_APK_URL:-}" ]]; then
+            curl -fsSL --retry 3 -o "$RUNNER_TEMP/tiktok.apk" "$TIKTOK_APK_URL" && ok=1 || ok=0
+          else
+            scripts/fetch-tiktok-apk.sh "${{ matrix.tiktok }}" "$RUNNER_TEMP/tiktok.apk" && ok=1 || ok=0
+          fi
+          if [[ "$ok" == 1 ]]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=Patches NOT verified::Original TikTok ${{ matrix.tiktok }} APK unavailable in CI; patch application was not verified."
+          fi
 
       - name: Check original APK identity and signature
+        if: steps.apk.outputs.available == 'true'
         run: |
           set -euo pipefail
           bt=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n1)
@@ -92,6 +110,7 @@ jobs:
           "$bt/apksigner" verify --print-certs "$RUNNER_TEMP/tiktok.apk" | grep -E 'Signer #1 certificate (DN|SHA-256)'
 
       - name: Apply Unscroll patches (fail-closed)
+        if: steps.apk.outputs.available == 'true'
         run: |
           set -euo pipefail
           bundle=$(ls bundle/patches-*.mpp | head -n1)
@@ -99,6 +118,7 @@ jobs:
             --keystore "$RUNNER_TEMP/ci-throwaway.keystore" --out "$RUNNER_TEMP/unscroll.apk"
 
       - name: Check patched APK
+        if: steps.apk.outputs.available == 'true'
         run: |
           set -euo pipefail
           bt=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n1)
