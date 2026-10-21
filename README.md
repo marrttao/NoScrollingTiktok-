@@ -8,8 +8,8 @@ the infinite video feeds and the swipe-to-next-video loop, and keeps everything 
 about people: messages, shared videos, streaks, your profile and the full creator
 toolkit.
 
-> **Status: early development, not ready for daily use.** The first patches build in CI,
-> but nothing has been verified on a real TikTok APK or device yet. See
+> **Status: pre-release.** All patches apply to TikTok 47.4.3 and the injected code was
+> checked, but nothing has been tested on a device yet. See
 > [Compatibility](docs/COMPATIBILITY.md) for what is verified.
 
 Unscroll is **not** a TikTok clone, a separate player, an overlay blocker or a screen-time

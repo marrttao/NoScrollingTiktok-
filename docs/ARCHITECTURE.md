@@ -53,18 +53,18 @@ Status legend: **implemented** = code exists and compiles; **verified** = applie
 pinned TikTok APK and checked on a device. See `docs/COMPATIBILITY.md` for the current
 verification state; nothing is "verified" until that table says so.
 
-| Patch | Decision | Hook points | Status |
+| Patch | Decision | Hook points (TikTok 47.4.3) | Status |
 |---|---|---|---|
-| Block feed endpoints | P1, P8, P9, P11 | every `com.bytedance.retrofit2.client.Request` constructor: the URL passes through `FeedEndpointPolicy`; feed API paths are redirected to an unreachable local address | applies on 47.4.3 |
-| Restrict navigation | P1, P2 | `enable()` of the Friends/Shop/Explore/Discover bottom-tab protocols returns false; `TabChangeManager` tab switch redirected by `TabPolicy` (Home, and any unknown tab, opens Inbox) | applies on 47.4.3 |
-| Fix Google login | T5 | `GoogleAuth` availability → false, TikTok uses browser sign-in | applies on 47.4.3 |
-| Single video | P3 | detail screen pager (`DetailFragmentPanel` / `VerticalViewPager`) | in progress |
-| Profile playback rule | P5–P7 | profile grid item click → `PlaybackPolicy` | in progress |
-| Accounts-only search | P8 | video results already blocked by endpoint guard; search tabs UI | partly (data layer) |
-| Hashtag/sound pages | P9 | video lists blocked by endpoint guard | data layer only |
-| Stories: no auto-advance between authors | P10 | story pager | not started |
-| Block LIVE viewing | P11 | LIVE feed blocked by endpoint guard; live room entry | partly |
-| Deep-link guard | P12 | TikTok router entry → `LinkPolicy` | policy implemented, hook not started |
+| Block feed endpoints | P1, P8, P9, P11 | every `com.bytedance.retrofit2.client.Request` constructor: the URL passes through `FeedEndpointPolicy`; feed API paths are redirected to an unreachable local address | applies |
+| Restrict navigation | P1, P2 | `enable()` of the Friends/Shop/Explore/Discover bottom-tab protocols returns false; `TabChangeManager` tab switch redirected by `TabPolicy` (Home and unknown tabs open Inbox) | applies |
+| Disable video swipe | P3 | `VerticalViewPager.onInterceptTouchEvent/onTouchEvent/canScrollVertically` return false | applies |
+| Friends-only profile playback | P5–P7 | end of `DetailActivity.onCreate`: `ProfilePlaybackGuard` reads TikTok's `video_from` / `follow_status` extras and closes the screen for non-friends | applies |
+| Block feed screens | P9, P11 | end of `onCreate` of `LivePlayActivity`, `ChallengeDetailActivity`, `MusicDetailActivity` → `BlockedScreen.close` | applies |
+| Fix Google login | T5 | `GoogleAuth` availability → false, TikTok uses browser sign-in | applies |
+| Accounts-only search | P8 | video/hashtag/sound/LIVE search results blocked by the endpoint guard; account search stays | data layer only — the result tabs still exist but stay empty |
+| Deep links | P12 | covered by the layers above: feed links land on Home (redirected to Inbox), blocked endpoints or blocked screens; single-video links open `DetailActivity` | no dedicated hook |
+| Stories: no auto-advance between authors | P10 | story pager | **not implemented** |
+| Programmatic auto-advance (TikTok's opt-in "Auto scroll") | P3 | pager `setCurrentItem` paths | **not implemented** — auto scroll is off by default; see QA C3 |
 
 Removed during reverse engineering of 47.4.3: emptying `FeedItemList.getItems()` —
 TikTok also uses `FeedItemList` for profile video lists, so it would have broken

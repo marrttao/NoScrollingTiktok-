@@ -28,3 +28,22 @@ internal fun MutableMethod.beforeEveryObjectReturn(smaliTemplate: String) {
         addInstructions(index, smaliTemplate.replace("{reg}", "v$register"))
     }
 }
+
+/**
+ * Inserts [smali] before every `return-void` of [this]; throws when there is none.
+ * Used to run Unscroll code at the end of an Activity's onCreate.
+ */
+internal fun MutableMethod.beforeEveryVoidReturn(smali: String) {
+    val indices = implementation?.instructions?.withIndex()
+        ?.filter { it.value.opcode == Opcode.RETURN_VOID }
+        ?.map { it.index }
+        .orEmpty()
+    if (indices.isEmpty()) throw PatchException("$definingClass->$name has no void return")
+    indices.asReversed().forEach { addInstructions(it, smali) }
+}
+
+/** The `onCreate(Bundle)` declared by [activityType] itself. */
+internal fun app.morphe.patcher.patch.BytecodePatchContext.activityOnCreate(activityType: String): MutableMethod =
+    mutableClassDefBy(activityType).methods.singleOrNull {
+        it.name == "onCreate" && it.parameterTypes.map(CharSequence::toString) == listOf("Landroid/os/Bundle;")
+    } ?: throw PatchException("$activityType declares no onCreate(Bundle)")

@@ -30,7 +30,9 @@ Build: `patches-____` · TikTok `____` · Device `____` · Android `____` · Dat
 | B6 | Open `https://www.tiktok.com/foryou` from another app | Does not open a feed | |
 | B7 | Open `https://www.tiktok.com/tag/cats` | Does not open a hashtag feed | |
 | B8 | Open a sound page link | Does not open a sound feed | |
-| B9 | Search for a word | Only account results | |
+| B9 | Search for a word | Accounts tab works; video/hashtag/sound/LIVE tabs stay empty | |
+| B10 | Tap a #hashtag or a sound in a caption | Page closes with “this feed is not available” | |
+| B11 | Tap a LIVE avatar ring / LIVE notification | LIVE room closes with “this feed is not available” | |
 
 ## C. Single video rule
 
@@ -50,7 +52,7 @@ Build: `patches-____` · TikTok `____` · Device `____` · Android `____` · Dat
 | D1 | Own profile → tap own video | Plays, single video | |
 | D2 | Friend (mutual follow) profile → tap video | Plays, single video | |
 | D3 | Friend profile → Reposts / Favourites tab → tap video | Plays, single video | |
-| D4 | Non-friend profile | Profile and grid visible, videos do not play | |
+| D4 | Non-friend profile → tap a video | Profile and grid visible; the video screen closes with “Videos can only be watched on friends' profiles” | |
 
 ## E. Communication (kept)
 

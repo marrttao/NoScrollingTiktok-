@@ -19,6 +19,9 @@ MORPHE_SHA256="1b506ab5f03d16a2f65026d5e0e1910d01fc1e2152f21eaeb44ed2f30856597b"
 PATCHES=(
   "Block feed endpoints"
   "Restrict navigation"
+  "Disable video swipe"
+  "Friends-only profile playback"
+  "Block feed screens"
   "Fix Google login"
 )
 

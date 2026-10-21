@@ -28,4 +28,7 @@ dex). "Device" = behaviour checked with `docs/QA_CHECKLIST.md`.
 |---|---|---|
 | Block feed endpoints | yes | not yet |
 | Restrict navigation | yes | not yet |
+| Disable video swipe | yes | not yet |
+| Friends-only profile playback | yes | not yet |
+| Block feed screens | yes | not yet |
 | Fix Google login | yes | not yet |

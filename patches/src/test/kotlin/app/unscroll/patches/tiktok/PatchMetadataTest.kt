@@ -2,7 +2,10 @@ package app.unscroll.patches.tiktok
 
 import app.unscroll.patches.tiktok.feed.blockFeedEndpointsPatch
 import app.unscroll.patches.tiktok.login.fixGoogleLoginPatch
+import app.unscroll.patches.tiktok.navigation.blockFeedScreensPatch
 import app.unscroll.patches.tiktok.navigation.restrictNavigationPatch
+import app.unscroll.patches.tiktok.video.disableVideoSwipePatch
+import app.unscroll.patches.tiktok.video.profilePlaybackRulePatch
 import app.unscroll.patches.tiktok.shared.SUPPORTED_TIKTOK_VERSIONS
 import app.unscroll.patches.tiktok.shared.TIKTOK_PACKAGE
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -14,6 +17,9 @@ class PatchMetadataTest {
     private val unscrollPatches = listOf(
         blockFeedEndpointsPatch,
         restrictNavigationPatch,
+        blockFeedScreensPatch,
+        disableVideoSwipePatch,
+        profilePlaybackRulePatch,
         fixGoogleLoginPatch,
     )
 
