@@ -1,106 +1,111 @@
-# Unscroll
+<p align="center">
+  <a href="https://t.me/SayNoToScrolling">
+    <img src="docs/assets/banner.svg" alt="Unscroll — сохрани общение, убери бесконечную ленту" width="100%">
+  </a>
+</p>
 
-**TikTok without doomscrolling.**
-Keep your friends. Keep creating. Lose the feed.
+<h1 align="center">TikTok без бесконечной ленты</h1>
 
-Unscroll is an open-source patch set for the original TikTok Android app. It removes
-the infinite video feeds and the swipe-to-next-video loop, and keeps everything that is
-about people: messages, shared videos, streaks, your profile and the full creator
-toolkit.
+<p align="center">Сообщения друзьям. Твои публикации. Больше времени на свою жизнь.</p>
 
-> **Status: early development, not ready for daily use.** The first patches build in CI,
-> but nothing has been verified on a real TikTok APK or device yet. See
-> [Compatibility](docs/COMPATIBILITY.md) for what is verified.
+<p align="center">
+  <a href="https://t.me/SayNoToScrolling">
+    <img src="docs/assets/telegram-download.svg" alt="Скачать APK в Telegram — SayNoToScrolling" width="320">
+  </a>
+</p>
 
-Unscroll is **not** a TikTok clone, a separate player, an overlay blocker or a screen-time
-timer. It is the TikTok app you know, minus the feed.
+<p align="center">
+  <a href="https://t.me/SayNoToScrolling">APK и обновления</a> ·
+  <a href="docs/INSTALL.md">Как установить</a> ·
+  <a href="docs/BUILD.md">Собрать из исходников</a> ·
+  <a href="README.en.md">English</a>
+</p>
 
-## What changes
+---
 
-| Removed | Kept |
-|---|---|
-| For You, Following, Friends feeds | Direct messages, group chats, streaks |
-| Swiping to the next video, auto-advance | Watching a video a friend sent you |
-| "Related" and recommended videos | Likes, comments, favourites, reposts, sharing |
-| LIVE feed, Explore, Nearby, Shop | Recording, uploading, editing, drafts, posting |
-| Video, hashtag and sound search results | Account search, your profile, analytics |
-| Watching non-friends' profiles | Friends' profiles (mutual follows), friends' stories |
-| Deep links into feeds | Starting your own LIVE, settings, privacy |
+## Открыл по делу. Занялся своим.
 
-There is no settings screen and no "just five minutes" switch. The full rule set is in
-[docs/DECISIONS.md](docs/DECISIONS.md).
+**Unscroll** — открытый проект модификации TikTok для Android. Его цель — оставить
+общение с друзьями и создание контента, убрав бесконечную ленту рекомендаций и
+привычку листать следующее видео.
 
-## How it works
+Отправить сообщение. Посмотреть ролик, которым поделился друг. Опубликовать свой.
+И вернуться к тому, что важно за пределами приложения.
 
-Unscroll is a patch bundle for the [Morphe](https://github.com/MorpheApp) patcher (a
-continuation of ReVanced). You patch an original TikTok APK yourself, on your phone with
-Morphe Manager or on a computer with `scripts/unscroll-patch.sh`. This repository
-contains **no TikTok code or APKs**.
+> [!IMPORTANT]
+> **Проект в разработке.** Применение патчей к реальному TikTok APK и работа на
+> устройстве пока не проверены. Ниже описаны цели проекта, а не подтверждённая
+> готовность всех функций. Статус — в [таблице совместимости](docs/COMPATIBILITY.md).
 
-Feeds are blocked in three independent layers: feed data is emptied, the navigation to
-feeds is removed, and video screens show a single video. Details:
-[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+## Что остаётся, а что уходит
 
-## Install
+| Остаётся для тебя | Убираем из приложения |
+| --- | --- |
+| Личные сообщения, групповые чаты и серии общения | Ленты «Для тебя», подписок и друзей |
+| Отдельные видео, которыми поделились в сообщениях | Свайпы к следующему ролику и автопереходы |
+| Съёмка, монтаж, загрузка и публикация контента | Рекомендованные и похожие видео |
+| Свой профиль и профили друзей с взаимной подпиской | LIVE-лента, Explore, Nearby и Shop |
+| Поиск аккаунтов | Выдача видео, хештегов и звуков в поиске |
 
-Replacing TikTok deletes its local data (including unpublished **drafts**). Read
-[docs/INSTALL.md](docs/INSTALL.md) first.
+Запланированный стартовый экран — **входящие сообщения**. Открытый ролик остаётся
+одним роликом: без перехода к следующему. Полные правила —
+в [описании продукта](docs/DECISIONS.md).
 
-Quick version (computer, Java 21+):
+## Скачать APK
 
-```bash
-./gradlew :patches:buildAndroid          # or download a released patches-*.mpp
-scripts/unscroll-patch.sh --apk TikTok-46.2.3.apk \
-  --bundle patches/build/libs/patches-0.1.0.mpp \
-  --keystore ~/unscroll.keystore
-```
+**За APK-версиями мода, обновлениями и инструкциями переходи в
+[Telegram-канал @SayNoToScrolling →](https://t.me/SayNoToScrolling).**
 
-## Build from source
+1. Открой канал и найди публикацию с нужной версией APK.
+2. Прочитай её статус, совместимость и инструкцию к версии.
+3. Перед установкой сохрани черновики и проверь, что сможешь войти в аккаунт.
 
-Requirements: JDK 21, a GitHub token with `read:packages` (Morphe publishes its patcher
-on GitHub Packages).
+Если APK ещё не опубликован, следи за анонсами в канале. Исходный код и техническая
+документация остаются в этом репозитории на GitHub.
 
-```bash
-export GITHUB_ACTOR=<your-github-user>
-export GITHUB_TOKEN=<token with read:packages>
-./gradlew :extensions:tiktok:testDebugUnitTest :patches:test   # tests
-./gradlew :patches:buildAndroid                                 # patches/build/libs/patches-<version>.mpp
-```
+> [!WARNING]
+> Unscroll сохраняет идентификатор пакета TikTok. Из-за другой подписи для перехода
+> с официального приложения потребуется его удалить. **Это удалит локальные данные,
+> включая неопубликованные черновики.** Сначала прочитай [инструкцию](docs/INSTALL.md).
 
-## Compatibility
+## Открытый код
 
-| TikTok | Package | State |
-|---|---|---|
-| 46.2.3 | `com.zhiliaoapp.musically` | in development, not yet verified |
+В основе Unscroll — Kotlin-патчи для [Morphe](https://github.com/MorpheApp) и
+Java-расширение с логикой ограничений. Здесь можно изучить реализацию, запустить
+тесты и собрать собственный пакет патчей. Целевые APK и ключи подписи в репозиторий
+не добавляются.
 
-Full table and APK requirements: [docs/COMPATIBILITY.md](docs/COMPATIBILITY.md).
+| Хочешь… | Куда перейти |
+| --- | --- |
+| Скачать APK или следить за версиями | [Telegram](https://t.me/SayNoToScrolling) |
+| Установить мод и сохранить черновики | [Установка](docs/INSTALL.md) |
+| Проверить поддержку версии TikTok | [Совместимость](docs/COMPATIBILITY.md) |
+| Собрать патчи и запустить тесты | [Сборка](docs/BUILD.md) |
+| Разобраться в реализации | [Архитектура](docs/ARCHITECTURE.md) |
+| Помочь с разработкой | [Contributing](CONTRIBUTING.md) |
+| Сообщить об ошибке | [GitHub Issues](https://github.com/marrttao/NoScrollingTiktok-/issues) |
 
-## Limitations
+## Прозрачность
 
-* One pinned TikTok version at a time; TikTok updates need new patch work.
-* The official TikTok has to be uninstalled first (different signing key).
-* TikTok can change server behaviour at any time; Unscroll cannot control the server.
-* Patching an app may violate TikTok's terms of service. You use Unscroll at your own
-  risk and on your own account.
+Собственный код Unscroll не добавляет сетевых запросов, аналитики или телеметрии.
+Сам TikTok продолжает работать со своими серверами. Мод не обходит вход в аккаунт
+и его защиту. Подробнее — в [политике безопасности](SECURITY.md).
 
-## Privacy and security
+Текущая целевая версия — **TikTok 46.2.3**, пакет `com.zhiliaoapp.musically`.
+Работа на реальном APK и устройстве ещё не подтверждена. Изменённый клиент может
+нарушать условия TikTok; серверные изменения также могут влиять на его работу.
 
-Unscroll adds no telemetry, no analytics, no servers and no network requests. It logs
-only fixed diagnostic strings to Android's local log, never user content. It does not
-bypass login, CAPTCHA or account protection. See [SECURITY.md](SECURITY.md).
+Лицензия исходного кода — [GPL-3.0](LICENSE) с дополнительными условиями раздела 7,
+описанными в [NOTICE](NOTICE). Unscroll использует наработки Metra TikTok Patches и
+ReVanced Patches; указания авторства сохранены в исходниках и NOTICE.
 
-## Documentation
+---
 
-* [Research](docs/RESEARCH.md) · [Decisions](docs/DECISIONS.md) · [Architecture](docs/ARCHITECTURE.md)
-* [Install](docs/INSTALL.md) · [Compatibility](docs/COMPATIBILITY.md) · [Troubleshooting](docs/TROUBLESHOOTING.md)
-* [QA checklist](docs/QA_CHECKLIST.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
+<p align="center">
+  <b>Меньше ленты. Больше своей жизни.</b><br>
+  <a href="https://t.me/SayNoToScrolling">Перейти в @SayNoToScrolling →</a>
+</p>
 
-## License
-
-GPL-3.0 with the additional section 7 terms inherited from Morphe-derived code — see
-[LICENSE](LICENSE) and [NOTICE](NOTICE). Unscroll adapts hook points from
-[Metra TikTok Patches](https://github.com/icysymmetra/tiktok-patches-for-morphe) and
-[ReVanced Patches](https://gitlab.com/ReVanced/revanced-patches).
-
-Unscroll is not affiliated with TikTok, ByteDance, Morphe or ReVanced. "TikTok" is a
-trademark of its owner and is used only to describe compatibility.
+<p align="center">
+  <sub>Независимый проект. Не связан с TikTok, ByteDance или Morphe.</sub>
+</p>

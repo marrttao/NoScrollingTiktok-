@@ -14,6 +14,10 @@ Thanks for helping people keep TikTok for friends and creating, without the feed
 
 ## Development setup
 
+See [Build from source](docs/BUILD.md) for SDK requirements, build commands and
+self-patching instructions. Mod APK versions and announcements are linked from
+the [project's Telegram channel](https://t.me/SayNoToScrolling).
+
 1. JDK 21.
 2. A GitHub personal access token (classic) with only `read:packages` — Morphe hosts its
    patcher on GitHub Packages. Put it in `~/.gradle/gradle.properties`:

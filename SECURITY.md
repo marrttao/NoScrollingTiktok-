@@ -8,8 +8,10 @@
 * Does **not** bypass login, CAPTCHA, two-step verification or other account
   protection, and does not spoof the app signature. The *Fix Google login* patch only
   makes TikTok use its own browser-based Google sign-in.
-* Re-signs the app with **your** key. Anyone holding that keystore could ship you an
-  update; keep it private and backed up.
+* A patched APK is signed with the build publisher's key, not TikTok's key. For a
+  self-built APK, this is **your** key: keep it private and backed up. APKs from the
+  project's [Telegram channel](https://t.me/SayNoToScrolling) and self-built APKs may
+  use different keys. Android requires the same signing key for an in-place update.
 
 ## Risks you accept by using Unscroll
 
@@ -17,7 +19,9 @@
   that use modified clients. This has not been evaluated.
 * Patched builds do not receive TikTok's security updates automatically. Update to new
   supported versions when they are listed.
-* Only patch APKs whose signature you verified as TikTok's original.
+* For self-patching, only use original APKs whose signature you verified as TikTok's.
+  For a mod APK, review the release's source, compatibility and known limitations;
+  a download link alone does not establish that a build is verified.
 
 ## Reporting a vulnerability
 

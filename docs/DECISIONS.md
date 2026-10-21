@@ -35,8 +35,8 @@ requires an explicit discussion; the patches implement exactly these rules.
 
 | # | Decision |
 |---|---|
-| D1 | Source code lives on GitHub. The owner wants users to get Unscroll through the owner's Telegram channel. |
-| D2 | What is distributed is the **Unscroll patch bundle** (`patches-*.mpp`, our own GPL code) and instructions; users patch their own original TikTok APK (Morphe Manager on the phone, or `scripts/unscroll-patch.sh`). Prebuilt patched TikTok APKs are **not** produced or distributed by this project: they contain TikTok's proprietary code, and users could not verify what a third party signed. (Pending owner confirmation.) |
+| D1 | Source code and developer documentation live on GitHub. The primary download and update destination is the owner's Telegram channel, [@SayNoToScrolling](https://t.me/SayNoToScrolling). |
+| D2 | The owner has selected **mod APK versions distributed through Telegram** as the user-facing download path. The repository directs users to the channel for release availability, version status and installation instructions; it does not store target APKs or signing keys. Self-building the `.mpp` patch bundle and patching an original TikTok APK remain documented options for developers. This distribution decision does not establish that an APK has been published or tested. |
 
 ## Pending (ask before acting)
 
